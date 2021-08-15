@@ -19,7 +19,10 @@ jobs:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - run: echo $ENV_NAME
+      - run:
+          name: "echo the environmental variable that is part of the project"
+          command: |
+            echo $ENV_NAME
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
