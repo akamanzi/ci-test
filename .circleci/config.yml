@@ -16,6 +16,8 @@ jobs:
     steps:
       - run: echo World
   print_name:
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - run: echo $ENV_NAME
 # Orchestrate or schedule a set of jobs
