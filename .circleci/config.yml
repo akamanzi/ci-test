@@ -17,9 +17,9 @@ jobs:
     steps:
       - run: echo "Hello World" > hello_world.txt
       - persist_to_workspace:
-        root: /tmp/dir
-        paths:
-          - hello_world.txt
+          root: /tmp/dir
+          paths:
+            - hello_world.txt
   
   print_output_file:
     docker:
