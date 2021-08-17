@@ -7,13 +7,13 @@ orbs:
 jobs:
   print_hello:
     docker:
-      - image: circleci/node:13.8.0
+      - image: alpine:latest
     steps:
       - run: echo Hello
   
   save_hello_world_output:
     docker:
-      - image: circleci/node:13.8.0
+      - image: alpine:latest
     steps:
       - run: echo "Hello World" > hello_world.txt
       - persist_to_workspace:
