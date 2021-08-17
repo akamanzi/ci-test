@@ -17,7 +17,7 @@ jobs:
     steps:
       - run: echo "Hello World" > hello_world.txt
       - persist_to_workspace:
-          root: .
+          root: ~/
           paths:
             - hello_world.txt
   
@@ -26,8 +26,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: .
-      - run: cat hello_world.txt
+          at: ~/
+      - run: cat ~/hello_world.txt
 
   print_world:
     docker:
