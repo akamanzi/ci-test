@@ -4,7 +4,23 @@ version: 2.1
 orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
+commands:
+  print_pipeline_id:
+    description: "A command to print the pipeline id"
+    parameters:
+      id:
+        type: string
+        default: "No id passed"
+    steps:
+      - run: echo << parameters.id >>
 jobs:
+  show_pipeline_id:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - print_pipeline_id:
+          id: $CIRCLE_WORKFLOW_ID
+
   print_hello:
     docker:
       - image: alpine:latest
@@ -49,6 +65,7 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - welcome/run
+      - show_pipeline_id
       - save_hello_world_output
       - print_output_file:
           requires:
