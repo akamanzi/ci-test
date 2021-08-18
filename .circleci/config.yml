@@ -63,7 +63,9 @@ jobs:
         - image: circleci/node:13.8.0
       steps:
         - run: return 1
-        - run: echo "Hello Error"
+        - run: 
+            name: run when build fails
+            command: echo "Hello Error"
             when: on_fail
 # Orchestrate or schedule a set of jobs
 workflows:
@@ -72,6 +74,7 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - welcome/run
+      - fail_on_purpose
       - show_pipeline_id
       - save_hello_world_output
       - print_output_file:
