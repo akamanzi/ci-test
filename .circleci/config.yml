@@ -58,6 +58,13 @@ jobs:
           name: "echo the environmental variable that is part of the project"
           command: |
             echo $ENV_NAME
+  fail_on_purpose:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+        - run: return 1
+        - run: echo "Hello Error"
+            when: on_fail
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
@@ -70,8 +77,3 @@ workflows:
       - print_output_file:
           requires:
             - save_hello_world_output
-      # - print_hello
-      # - print_world:
-      #     requires:
-      #       - print_hello
-      # - print_name
