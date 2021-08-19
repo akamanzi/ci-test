@@ -86,7 +86,7 @@ jobs:
       - run:
           name: configure the server
           command: |
-            ansible-playbook -i inventory.txt main-remote.yml
+            ansible-playbook -i inventory main-remote.yml
   fail_on_purpose:
       docker:
         - image: circleci/node:13.8.0
