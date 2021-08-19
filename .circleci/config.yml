@@ -118,8 +118,11 @@ jobs:
         - image: circleci/node:13.8.0
       steps:
         - run: return 1
-        - destroy_environments
-          when: on_fail
+        - run:
+            name: print failure
+            command: |
+              echo "Failure"
+            when: on_fail
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
