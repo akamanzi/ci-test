@@ -13,6 +13,14 @@ commands:
         default: "No id passed"
     steps:
       - run: echo << parameters.id >>
+  
+  destroy_environments:
+    description: "deletes the stack when the build fails"
+    steps:
+      - run:
+          name: rollback
+          command: |
+            aws cloudformation delete-stack --stack-name my-stack
 jobs:
   show_pipeline_id:
     docker:
@@ -70,7 +78,9 @@ jobs:
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name my-stack
-  
+      - run: return 1 
+      - destroy_environments
+        when: on_fail
   configure_servers:
     docker:
       - image: python:3.7-alpine3.11
@@ -108,20 +118,19 @@ jobs:
         - image: circleci/node:13.8.0
       steps:
         - run: return 1
-        - run: 
-            name: run when build fails
-            command: echo "Hello Error"
-            when: on_fail
+        - destroy_environments
+          when: on_fail
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - configure_servers
-      - smoke_test:
-          requires:
-            - configure_servers
+      - create_infrastructure
+      # - configure_servers
+      # - smoke_test:
+      #     requires:
+      #       - configure_servers
       # - welcome/run
       # - fail_on_purpose
       # - show_pipeline_id
