@@ -71,6 +71,22 @@ jobs:
               --template-file template.yml \
               --stack-name my-stack
   
+  configure_servers:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "e9:4a:60:92:1c:5a:57:2e:3d:5d:b6:8e:f2:61:7d:b6"
+      - run:
+          name: install dependencies
+          command: |
+            apk add --update ansible
+      - run:
+          name: configure the server
+          command: |
+            ansible-playbook -i inventory.txt main-remote.yml
   fail_on_purpose:
       docker:
         - image: circleci/node:13.8.0
@@ -86,7 +102,7 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - create_infrastructure
+      - configure_servers
       # - welcome/run
       # - fail_on_purpose
       # - show_pipeline_id
