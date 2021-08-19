@@ -86,7 +86,7 @@ jobs:
       - run:
           name: configure the server
           command: |
-            ansible-playbook -i inventory main-remote.yml
+            yes yes | ansible-playbook -i inventory main-remote.yml
   smoke_test:
       docker:
         - image: alpine:latest
